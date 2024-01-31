@@ -309,7 +309,7 @@ require('lazy').setup {
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'habamax',
+        theme = 'gruvbox',
         component_separators = '|',
         section_separators = '',
       },
@@ -322,42 +322,43 @@ require('lazy').setup {
     opts = {} -- this is equalent to setup({}) function
   },
 
-  {
-    "ntk148v/habamax.nvim",
-    dependencies = { "rktjmp/lush.nvim" },
-    config = function()
-      vim.cmd.colorscheme("habamax.nvim")
-    end
-  },
-
   -- {
-  --   'ellisonleao/gruvbox.nvim',
+  --   "ntk148v/habamax.nvim",
+  --   dependencies = { "rktjmp/lush.nvim" },
   --   config = function()
-  --     require("gruvbox").setup({
-  --       terminal_colors = true,   -- add neovim terminal colors
-  --       undercurl = false,
-  --       underline = true,
-  --       bold = true,
-  --       italic = {
-  --         strings = false,
-  --         emphasis = false,
-  --         comments = false,
-  --         operators = false,
-  --         folds = false,
-  --       },
-  --       strikethrough = true,
-  --       invert_selection = false,
-  --       invert_signs = false,
-  --       invert_tabline = false,
-  --       invert_intend_guides = false,
-  --       inverse = true,      -- invert background for search, diffs, statuslines and errors
-  --       contrast = "hard",   -- can be "hard", "soft" or empty string
-  --       dim_inactive = false,
-  --       transparent_mode = true,
-  --     })
-  --     vim.o.backgroud = "dark"
+  --     vim.cmd.colorscheme("habamax.nvim")
   --   end
   -- },
+
+  {
+    'ellisonleao/gruvbox.nvim',
+    config = function()
+      require("gruvbox").setup({
+        terminal_colors = true,   -- add neovim terminal colors
+        undercurl = false,
+        underline = true,
+        bold = true,
+        italic = {
+          strings = false,
+          emphasis = false,
+          comments = false,
+          operators = false,
+          folds = false,
+        },
+        strikethrough = true,
+        invert_selection = false,
+        invert_signs = false,
+        invert_tabline = false,
+        invert_intend_guides = false,
+        inverse = true,      -- invert background for search, diffs, statuslines and errors
+        contrast = "hard",   -- can be "hard", "soft" or empty string
+        dim_inactive = false,
+        transparent_mode = true,
+      })
+      vim.o.backgroud = "dark"
+      vim.cmd.colorscheme("gruvbox")
+    end
+  },
 
   {
     'fei6409/log-highlight.nvim',
