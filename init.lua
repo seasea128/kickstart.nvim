@@ -363,7 +363,7 @@ require('lazy').setup({
         dim_inactive = false,
         transparent_mode = true,
       }
-      vim.o.backgroud = 'dark'
+      vim.o.background = 'dark'
       vim.cmd.colorscheme 'gruvbox'
     end,
   },
