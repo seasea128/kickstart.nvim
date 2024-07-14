@@ -277,6 +277,11 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
   {
+    'tpope/vim-fugitive',
+    event = 'VimEnter',
+  },
+
+  {
     'nvim-orgmode/orgmode',
     event = 'VeryLazy',
     ft = { 'org' },
@@ -816,7 +821,8 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        markdown = { 'prettier' },
       },
     },
   },
@@ -888,7 +894,7 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<TAB>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
