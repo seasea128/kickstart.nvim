@@ -243,7 +243,7 @@ require('lazy').setup({
   --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',    opts = {} },
+  { 'numToStr/Comment.nvim', opts = {} },
 
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
@@ -348,7 +348,7 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
-        { '<leader>c', group = '[C]ode',     mode = { 'n', 'x' } },
+        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
@@ -423,7 +423,7 @@ require('lazy').setup({
         invert_signs = false,
         invert_tabline = false,
         invert_intend_guides = false,
-        inverse = true,    -- invert background for search, diffs, statuslines and errors
+        inverse = true, -- invert background for search, diffs, statuslines and errors
         contrast = 'hard', -- can be "hard", "soft" or empty string
         dim_inactive = false,
         transparent_mode = true,
@@ -462,7 +462,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -570,7 +570,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim',       opts = {} },
+      { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
@@ -1016,13 +1016,13 @@ require('lazy').setup({
             -- correct padding with spaces between groups (accounts for 'missing'
             -- sections, etc.)
             return MiniStatusline.combine_groups {
-              { hl = mode_hl,                 strings = { string.upper(mode) } },
+              { hl = mode_hl, strings = { string.upper(mode) } },
               { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
               '%<', -- Mark general truncate point
               { hl = 'MiniStatuslineFilename', strings = { filename } },
               '%=', -- End left alignment
               { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
-              { hl = mode_hl,                  strings = { search, location } },
+              { hl = mode_hl, strings = { search, location } },
             }
           end,
         },
