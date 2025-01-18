@@ -583,6 +583,8 @@ require('lazy').setup({
           --  Useful when your language has ways of declaring types without an actual implementation.
           map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
 
+          map('gs', '<cmd>ClangdSwitchSourceHeader<cr>', '[G]oto [S]ource/Header (C++)')
+
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
@@ -649,7 +651,12 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        clangd = {},
+        clangd = {
+          cmd = {
+            'clangd',
+            '--query-driver=/usr/bin/arm-none-eabi-gcc,/usr/bin/arm-none-eabi-g++',
+          },
+        },
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
