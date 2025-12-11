@@ -89,6 +89,7 @@ P.S. You can delete this when you're done too. It's your config now! :)
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.g.termguicolors = true
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
@@ -157,6 +158,7 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 
 vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -375,20 +377,6 @@ require('lazy').setup({
   --   end,
   -- },
 
-  -- {
-  --   -- Set lualine as statusline
-  --   'nvim-lualine/lualine.nvim',
-  --   -- See `:help lualine.txt`
-  --   opts = {
-  --     options = {
-  --       icons_enabled = true,
-  --       theme = 'gruvbox',
-  --       component_separators = '|',
-  --       section_separators = '',
-  --     },
-  --   },
-  -- },
-
   {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
@@ -402,6 +390,33 @@ require('lazy').setup({
   --     vim.cmd.colorscheme("habamax.nvim")
   --   end
   -- },
+
+  --{
+  --  'miikanissi/modus-themes.nvim',
+  --  config = function()
+  --    require('modus-themes').setup {
+  --      -- Theme comes in two styles `modus_operandi` and `modus_vivendi`
+  --      -- `auto` will automatically set style based on background set with vim.o.background
+  --      style = 'modus_vivendi',
+  --      variant = 'default', -- Theme comes in four variants `default`, `tinted`, `deuteranopia`, and `tritanopia`
+  --      transparent = true, -- Transparent background (as supported by the terminal)
+  --      dim_inactive = false, -- "non-current" windows are dimmed
+  --      hide_inactive_statusline = true, -- Hide statuslines on inactive windows. Works with the standard **StatusLine**, **LuaLine** and **mini.statusline**
+  --      line_nr_column_background = true, -- Distinct background colors in line number column. `false` will disable background color and fallback to Normal background
+  --      sign_column_background = true, -- Distinct background colors in sign column. `false` will disable background color and fallback to Normal background
+  --      styles = {
+  --        -- Style to be applied to different syntax groups
+  --        -- Value is any valid attr-list value for `:help nvim_set_hl`
+  --        comments = { italic = false },
+  --        keywords = { italic = false },
+  --        functions = {},
+  --        variables = {},
+  --      },
+  --    }
+
+  --    vim.cmd.colorscheme 'modus'
+  --  end,
+  --},
 
   {
     'ellisonleao/gruvbox.nvim',
@@ -726,9 +741,11 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         clangd = {
+          filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'hpp' },
           cmd = {
             'clangd',
             '--query-driver=/usr/bin/arm-none-eabi-gcc,/usr/bin/arm-none-eabi-g++',
+            '--enable-config',
           },
         },
         -- gopls = {},
@@ -760,6 +777,10 @@ require('lazy').setup({
         },
       }
 
+      -- vim.lsp.config.protols.setup {
+      --   filetypes = { 'proto' },
+      -- }
+
       -- Ensure the servers and tools above are installed
       --
       -- To check the current status of installed tools and/or manually install
@@ -787,7 +808,7 @@ require('lazy').setup({
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            vim.lsp.config[server_name].setup(server)
           end,
         },
       }
@@ -1065,6 +1086,45 @@ require('lazy').setup({
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
+  {
+    'Groveer/plantuml.nvim',
+    opts = {
+      renderer = 'text',
+    },
+  },
+  {
+    'javiorfo/nvim-soil',
+
+    -- Optional for puml syntax highlighting:
+    dependencies = { 'javiorfo/nvim-nyctophilia' },
+
+    lazy = true,
+    ft = 'plantuml',
+    opts = {
+      -- If you want to change default configurations
+
+      -- This option closes the image viewer and reopen the image generated
+      -- When true this offers some kind of online updating (like plantuml web server)
+      actions = {
+        redraw = true,
+      },
+
+      -- If you want to customize the image showed when running this plugin
+      image = {
+        darkmode = true, -- Enable or disable darkmode
+        format = 'png', -- Choose between png or svg
+
+        -- This is a default implementation of using nsxiv to open the resultant image
+        -- Edit the string to use your preferred app to open the image (as if it were a command line)
+        -- Some examples:
+        -- return "feh " .. img
+        -- return "xdg-open " .. img
+        execute_to_open = function(img)
+          return 'nsxiv -b ' .. img
+        end,
+      },
+    },
+  },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -1129,5 +1189,30 @@ vim.api.nvim_create_autocmd('LspAttach', {
     })
   end,
 })
+
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
+  pattern = { '*.axaml' },
+  callback = function(event)
+    vim.lsp.start {
+      name = 'avalonia',
+      cmd = { 'avalonia-ls' },
+      root_dir = vim.fn.getcwd(),
+    }
+  end,
+})
+
+vim.filetype.add {
+  extension = {
+    axaml = 'xml',
+  },
+}
+
+vim.filetype.add {
+  pattern = {
+    ['*%.openapi%.ya?ml'] = 'yaml.openapi',
+    ['*%.openapi%.json'] = 'json.openapi',
+    ['compose%.ya?ml'] = 'yaml.docker-compose',
+  },
+}
 
 -- The line beneath this is called `modeline`. See `:help modeline`
